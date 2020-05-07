@@ -73,13 +73,10 @@ export class StudentComponent implements OnInit, OnDestroy, AfterViewInit {
         if (data != null) {
           localStorage.setItem('room', data.room_id)
           this.room = localStorage.getItem('room')
-          //for messages
           this.getMessage().subscribe((data) => {
             this.listMessage = data;
           })
-          // for list file
           this.getListFile()
-          //for report
           let param = { 'email': localStorage.getItem('userEmail'), 'room': this.room }
           let url_report = 'http://localhost:2222/get_report'
           this.http.get<any>(url_report, { params: param }).subscribe(data => {
@@ -136,7 +133,7 @@ export class StudentComponent implements OnInit, OnDestroy, AfterViewInit {
       this.message = ''
       this.messageService.socket.emit('message', this.fullMessage)
     } else {
-      alert('You dont have a room yet')
+      alert('You dont have personal tutor yet')
     }
   }
   sendk($event) {
@@ -151,7 +148,7 @@ export class StudentComponent implements OnInit, OnDestroy, AfterViewInit {
       this.message = ''
       this.messageService.socket.emit('message', this.fullMessage)
     } else {
-      alert('You dont have any contact with tutor')
+      alert('You dont have personal tutor yet')
     }
   }
 
@@ -170,12 +167,15 @@ export class StudentComponent implements OnInit, OnDestroy, AfterViewInit {
     if (localStorage.getItem('room')) {
       this.selectedFile = <File>event.target.files[0]
     } else {
-      alert('You dont have any contact with tutor')
+      alert('You dont have personal tutor yet')
     }
   }
   // upload files
   onUpload() {
-    if (this.selectedFile) {
+    if (this.selectedFile.size > 100000000){
+      alert('File must be smaller than 100MB')
+    }
+    else if (this.selectedFile) {
       this.fileService.onUpload(this.selectedFile, this.selectedFile.name, this.room).subscribe(
         (event: HttpEvent<any>) => {
           switch (event.type) {

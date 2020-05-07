@@ -143,30 +143,38 @@ export class RoomComponent implements OnInit,OnDestroy {
 
   // upload files
   onUpload() {
-    this.fileService.onUpload(this.selectedFile, this.selectedFile.name, this.room).subscribe(
-      (event: HttpEvent<any>) => {
-        switch (event.type) {
-          case HttpEventType.Sent:
-            console.log('Request has been made!');
-            break;
-          case HttpEventType.ResponseHeader:
-            console.log('Response header has been received!');
-            break;
-          case HttpEventType.UploadProgress:
-            this.process = Math.round(event.loaded / event.total * 100)
-            console.log(this.process)
-            break;
-          case HttpEventType.Response:
-            console.log('User successfully created!', event.body);
-            setTimeout(() => {
-              this.process = 0;
-            }, 1000);
+    if (this.selectedFile.size > 100000){
+      alert('File must be smaller than 100MB')
+    }else if (this.selectedFile) {
+      this.fileService.onUpload(this.selectedFile, this.selectedFile.name, this.room).subscribe(
+        (event: HttpEvent<any>) => {
+          switch (event.type) {
+            case HttpEventType.Sent:
+              console.log('Request has been made!');
+              break;
+            case HttpEventType.ResponseHeader:
+              console.log('Response header has been received!');
+              break;
+            case HttpEventType.UploadProgress:
+              this.process = Math.round(event.loaded / event.total * 100)
+              console.log(this.process)
+              break;
+            case HttpEventType.Response:
+              console.log('User successfully created!', event.body);
+              setTimeout(() => {
+                this.process = 0;
+              }, 1000);
+          }
         }
-      }
-    )
-    setTimeout(()=>{
-      this.getListFile()
-    },500)
+      )
+      setTimeout(()=>{
+        this.getListFile()
+      },500)
+    }
+    else {
+      alert('No file choosen')
+    }
+
     
   }
 

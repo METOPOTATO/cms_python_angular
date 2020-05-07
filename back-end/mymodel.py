@@ -195,22 +195,6 @@ class db:
             raise Exception
             return 'wrong'
 
-    #get dashboard data
-    # def get_dashboard(self,value):
-    #     try:
-    #         query = "select * from documents where upload_at between %s and %s and room_id = %s"
-    #         conn = conn1()
-    #         cursor = conn.cursor(buffered=True , dictionary=True)
-    #         cursor.execute(query,value)
-    #         result = cursor.fetchall()
-    #         cursor.close()
-    #         conn.close()
-    #         return result
-    #     except:
-    #         raise Exception
-    #         return 'wrong'
-    
-    # insert comments
     def insert_comment(self,event):
         try:
             query = "insert into comments(comment_content,document_id) values(%s,%s);"
@@ -240,8 +224,6 @@ class db:
         except:
             raise Exception
             return 'wrong'
-
-         
 
     # student report
     def get_report(self,id):
