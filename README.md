@@ -21,3 +21,7 @@
 ## Run project
 - Run back-end: right click on file mysocket and choose Run python file in terminal
 - Run front-end: go to folder frontend and type: ng serve or ng s
+
+## Folder download files
+- If if the program run well but you can not download file, please check file location in file mysocket.py in folder backend.
+- By default program will create a folder in "D://save_file". But if you dont have Drive "D", you can change this location in file mysocket.py(folder backend) and put images into it.
